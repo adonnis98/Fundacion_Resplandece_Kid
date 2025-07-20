@@ -9,13 +9,14 @@ namespace Fundacion_Resplandece_Kid.Clases
 {
     public class Beneficiarios
     {
-        public int id;
-        public string cedula;
+        private int id;
+        public string codigo;
+        private string cedula;
         private string nombres;
         private string apellidos;
         private string direccion;
         private DateTime fecha_nacimiento;
-        public string plantel_educativo;
+        private string plantel_educativo;
         private string anio_educativo;
         private string telefono;
         private string email;
@@ -24,9 +25,10 @@ namespace Fundacion_Resplandece_Kid.Clases
 
 
 
-        public Beneficiarios(string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
+        public Beneficiarios(string codigo,string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
         {
             this.id = BaseDeDatos.BaseDatosBeneficiarios.Count() + 1; // Generación de ID secuencial
+            this.codigo = "00" + this.id.ToString(); // Generación de código único
             this.cedula = cedula;
             this.nombres = nombres;
             this.apellidos = apellidos;
@@ -44,6 +46,10 @@ namespace Fundacion_Resplandece_Kid.Clases
         public int GetId()
         {
             return id;
+        }
+        public string getCodigo()
+        {
+            return this.codigo;
         }
         public string GetCedula()
         {
@@ -99,6 +105,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             Console.WriteLine(" ╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine(" ║                 Datos del beneficiario registrado             ║".PadRight(80) + "║");
             Console.WriteLine($"║ ID: {this.id}".PadRight(80) +                                                   "║");
+            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(80) +                                           "║");
             Console.WriteLine($"║ Cédula: {this.cedula}".PadRight(80) +                                           "║");
             Console.WriteLine($"║ Nombres Completos: {this.nombres_completos}".PadRight(80) +                     "║");
             Console.WriteLine($"║ Fecha de Nacimiento:{this.fecha_nacimiento.ToShortDateString()} ".PadRight(80) +"║");
@@ -109,7 +116,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             Console.WriteLine($"║ Plantel Educativo: {this.plantel_educativo}".PadRight(80) +                     "║");
             Console.WriteLine($"║ Año Educativo: {this.anio_educativo}".PadRight(80) +                            "║");
             Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
-            Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
+          //  Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
             //if (this.representante != null)
             //{
                 //Console.WriteLine($"║ Cédula Rep.: {this.representante.GetCedula()}".PadRight(80) + "║");

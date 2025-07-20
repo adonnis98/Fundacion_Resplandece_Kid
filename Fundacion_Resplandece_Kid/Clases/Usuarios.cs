@@ -9,35 +9,59 @@ namespace Fundacion_Resplandece_Kid.Clases
 {
     public class Usuarios
     {
-        public string usuario;
-        public string contrasena;
-        public string rol;
+        private int id;
+        private string codigo;
+        private string usuario;
+        private string contrasena;
+        private string rol;
 
-        public Usuarios(string usuario, string contrasena, string admin)
+
+        public Usuarios(string usuario, string contrasena, string rol)
         {
+            this.id = BaseDeDatos.BaseDatosUsuarios.Count() + 1; // Genera un ID secuencial para el usuario
             this.usuario = usuario;
             this.contrasena = contrasena;
-            this.rol = admin;
+            this.rol = rol;
+            this.codigo = this.usuario.Substring(0, 2) + "-" + this.id.ToString();
             BaseDeDatos.BaseDatosUsuarios.Add(this);
         }
+        public List<Usuarios> UsuariosDelSistema;
 
         public Usuarios()
         {
+            UsuariosDelSistema = new List<Usuarios>();
         }
 
         public void CrearUsuariosAdministrativos()
         {
             Usuarios admin1 = new Usuarios("David", "DA2025", "Administrador");
-            BaseDeDatos.BaseDatosUsuarios.Add(admin1);
+            UsuariosDelSistema.Add(admin1);
 
             Usuarios admin2 = new Usuarios("Williams", "WILL2025", "Administrador");
-            BaseDeDatos.BaseDatosUsuarios.Add(admin2);
+            UsuariosDelSistema.Add(admin2);
 
             Usuarios admin3 = new Usuarios("Adonis", "ADN123", "Administrador");
-            BaseDeDatos.BaseDatosUsuarios.Add(admin3);
+            UsuariosDelSistema.Add(admin3);
 
             Usuarios admin4 = new Usuarios("Gabriel", "GAB123", "Administrador");
-            BaseDeDatos.BaseDatosUsuarios.Add(admin4);
+            UsuariosDelSistema.Add(admin4);
+        }
+
+
+        //codigo por tener private
+        public string getCodigo()
+        {
+            return this.codigo;
+        }
+
+        public void Imprimir()
+        {
+            Console.WriteLine(" ╔══════════════════════════════════════════════════════════════╗");
+            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(52) + "║");
+            Console.WriteLine($"║ Usuario: {this.usuario}".PadRight(52) + "║");
+            Console.WriteLine($"║ Contraseña: {this.contrasena}".PadRight(52) + "║");
+            Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) + "║");
+            Console.WriteLine(" ╚══════════════════════════════════════════════════════════════╝");
         }
 
         public void MostrarUsuarios()
