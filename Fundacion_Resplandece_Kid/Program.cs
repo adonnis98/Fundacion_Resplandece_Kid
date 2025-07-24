@@ -15,7 +15,7 @@ namespace Fundacion_Resplandece_Kid
         {
             // Inicializar los usuarios administrativos al inicio
             gestionUsuarios = new Clases.Usuarios();
-            gestionUsuarios.CrearUsuariosAdministrativos();
+          
 
             MostrarMenuPrincipal(); // Menú principal para el usuario antes de ingresar al sistema
         }
@@ -157,7 +157,7 @@ namespace Fundacion_Resplandece_Kid
             Console.WriteLine("╠══════════════════════════════════════════════════════╣ ");
             Console.WriteLine("║  1. CREACIÓN DE USUARIO                              ║ ");//C
             Console.WriteLine("║  2. LISTA DE USUARIOS                                ║ ");//R
-            Console.WriteLine("║  3. CONSULTAR USUARIO                                 ║ ");//D
+            Console.WriteLine("║  3. CONSULTAR USUARIO                                ║ ");//D
             Console.WriteLine("║  4. ELIMINAR USUARIO                                 ║ ");//D
             Console.WriteLine("║  5. VOLVER AL MENU                                   ║ ");
             Console.WriteLine("║                                                      ║ ");

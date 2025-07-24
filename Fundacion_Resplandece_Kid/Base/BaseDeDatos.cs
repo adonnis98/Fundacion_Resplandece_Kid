@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +11,46 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
     public static class BaseDeDatos
     {
         public static List<Beneficiarios> BaseDatosBeneficiarios = new List<Beneficiarios>();
+        private static string nombreBaseDatosBeneficiarios = "Beneficiarios.dat";
+
+        public static void guardarDatosEnArchivoBeneficiarios()
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream nuevoArchivo = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Create);
+            bf.Serialize(nuevoArchivo, BaseDatosBeneficiarios);
+        }
+        public static void cargarDatosDesdeArchivoBeneficiarios()
+        {
+            if (File.Exists(nombreBaseDatosBeneficiarios))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream archivoExistente = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Open);
+                BaseDatosBeneficiarios = (List<Beneficiarios>)bf.Deserialize(archivoExistente);
+                archivoExistente.Close();
+            }
+        }
+
+
         public static List<Usuarios> BaseDatosUsuarios = new List<Usuarios>();
+        private static string nombreBaseDatosUsuaros= "Usuarios.dat";
+
+        public static void guardarDatosEnArchivo()
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuaros, FileMode.Create);
+            bf.Serialize(nuevoArchivo, BaseDatosUsuarios);
+        }
+        public static void cargarDatosDesdeArchivo()
+        {
+            if (File.Exists(nombreBaseDatosUsuaros))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream archivoExistente = new FileStream(nombreBaseDatosUsuaros, FileMode.Open);
+                BaseDatosUsuarios = (List<Usuarios>)bf.Deserialize(archivoExistente);
+                archivoExistente.Close();
+            }
+        }
+
         public static Beneficiarios GetBeneficiariosXCodigo(string codigo )
         {
             foreach (var item in BaseDatosBeneficiarios)

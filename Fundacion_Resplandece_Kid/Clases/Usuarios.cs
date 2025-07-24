@@ -7,6 +7,7 @@ using Fundacion_Resplandece_Kid.Clases.Base;
 
 namespace Fundacion_Resplandece_Kid.Clases
 {
+    [Serializable]
     public class Usuarios
     {
         private int id;
@@ -25,31 +26,16 @@ namespace Fundacion_Resplandece_Kid.Clases
             this.codigo = this.usuario.Substring(0, 2) + "-" + this.id.ToString();
             BaseDeDatos.BaseDatosUsuarios.Add(this);
         }
-        public List<Usuarios> UsuariosDelSistema;
+        public List<Usuarios> UsuariosDelSistema;// Lista de usuarios del sistema
 
         public Usuarios()
         {
-            UsuariosDelSistema = new List<Usuarios>();
-        }
-
-        public void CrearUsuariosAdministrativos()
-        {
-            Usuarios admin1 = new Usuarios("David", "DA2025", "Administrador");
-            UsuariosDelSistema.Add(admin1);
-
-            Usuarios admin2 = new Usuarios("Williams", "WILL2025", "Administrador");
-            UsuariosDelSistema.Add(admin2);
-
-            Usuarios admin3 = new Usuarios("Adonis", "ADN123", "Administrador");
-            UsuariosDelSistema.Add(admin3);
-
-            Usuarios admin4 = new Usuarios("Gabriel", "GAB123", "Administrador");
-            UsuariosDelSistema.Add(admin4);
+            UsuariosDelSistema = new List<Usuarios>();// Inicializa la lista de usuarios del sistema
         }
 
 
         //codigo por tener private
-        public string getCodigo()
+        public string getCodigo()// 
         {
             return this.codigo;
         }
@@ -57,14 +43,14 @@ namespace Fundacion_Resplandece_Kid.Clases
         public void Imprimir()
         {
             Console.WriteLine(" ╔══════════════════════════════════════════════════════════════╗");
-            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(52) + "║");
-            Console.WriteLine($"║ Usuario: {this.usuario}".PadRight(52) + "║");
-            Console.WriteLine($"║ Contraseña: {this.contrasena}".PadRight(52) + "║");
-            Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) + "║");
+            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(52) +                       "║");
+            Console.WriteLine($"║ Usuario: {this.usuario}".PadRight(52) +                     "║");
+            Console.WriteLine($"║ Contraseña: {this.contrasena}".PadRight(52) +               "║");
+            Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) +                             "║");
             Console.WriteLine(" ╚══════════════════════════════════════════════════════════════╝");
         }
 
-        public void MostrarUsuarios()
+        public void MostrarUsuarios() // muestra los usuarios registrados en la base de datos
         {
             foreach (var usuario in BaseDeDatos.BaseDatosUsuarios)
             {
@@ -83,14 +69,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             }
             return false;
         }
-        //para crear un nuevo usuario desde dentro del sistema
-        //public void CrearUsuariosAdministrativos()
-        //{
-        //Usuario admin1 = new Usuario("Pilar", "PI2025", "Administrador");
-        //UsuariosDelSistema.Add(admin1);
-        //Usuario admin2 = new Usuario("Narcisa", "NAR2025", "Administrador");
-        //UsuariosDelSistema.Add(admin2);
-        //USUARIO CLASE HECHA POR ADONIS
+         
     }
 }
 
