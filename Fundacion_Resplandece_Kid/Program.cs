@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Fundacion_Resplandece_Kid.Clases.Base; // Necesario para BaseDeDatos
-using Fundacion_Resplandece_Kid.Clases;    // Necesario para Beneficiarios y Usuarios
+using Fundacion_Resplandece_Kid.Clases.Base;
+using Fundacion_Resplandece_Kid.Clases;
 
 namespace Fundacion_Resplandece_Kid
 {
@@ -15,7 +15,7 @@ namespace Fundacion_Resplandece_Kid
         {
             // Inicializar los usuarios administrativos al inicio
             gestionUsuarios = new Clases.Usuarios();
-          
+
 
             MostrarMenuPrincipal(); // Menú principal para el usuario antes de ingresar al sistema
         }
@@ -296,16 +296,17 @@ namespace Fundacion_Resplandece_Kid
                 Console.WriteLine("║                  MENU PRINCIPAL                       ║  ");
                 Console.WriteLine("╠═══════════════════════════════════════════════════════╣  ");
                 Console.WriteLine("║  1.  REGISTRAR NUEVO BENEFICIARIO                     ║  ");//C
-                Console.WriteLine("║  2.  LISTADO DE TODOS LOS BENEFICIARIOS               ║  ");//R
-                Console.WriteLine("║  3.  CONSULTAR DATOS DE UN BENEFICIARIO               ║  ");//RALL
+                Console.WriteLine("║  2.  LISTADO DE TODOS LOS BENEFICIARIOS               ║  ");//RALL
+                Console.WriteLine("║  3.  CONSULTAR DATOS DE UN BENEFICIARIO               ║  ");//R
                 Console.WriteLine("║  4.  ACTUALIZAR DATOS DE UN BENEFICIARIO              ║  ");//U
                 Console.WriteLine("║  5.  ELIMINAR DATOS DE UN BENEFICIARIO                ║  ");//D
                 Console.WriteLine("║  6.  BUSCAR BENEFICIARIO POR CODIGO                   ║  ");
                 Console.WriteLine("║  7.  REPORTES DE BENEFICIARIOS                        ║  ");
                 Console.WriteLine("║  8.  REGISTRAR NUEVO TUTOR                            ║  ");//C
-                Console.WriteLine("║  9.  BUSCAR TUTOR POR CODIGO                          ║  ");//R
-                Console.WriteLine("║  10.  ACTUALIZAR DATOS DE TUTOR                       ║  ");//U
-                Console.WriteLine("║  11. ELIMINAR DATOS DE TUTOR                          ║  ");//D
+                Console.WriteLine("║  9.  LISTADO DE TODOS LOS TUTORES                     ║  ");//RALL
+                Console.WriteLine("║  10. CONSULTAR DATOS DE UN TUTOR                      ║  ");//R
+                Console.WriteLine("║  11. ACTUALIZAR DATOS DE TUTOR                        ║  ");//U
+                Console.WriteLine("║  12. ELIMINAR DATOS DE TUTOR                          ║  ");//D
                 Console.WriteLine("║  0 SALIR                                              ║  ");
                 Console.WriteLine("╚═══════════════════════════════════════════════════════╝  ");
                 Console.ResetColor();
@@ -328,22 +329,28 @@ namespace Fundacion_Resplandece_Kid
                         UpdateBeneficiario();
                         break;
                     case "5":
-                        ReadAllBeneficiario();
+                        DeleteBeneficiario();
                         break;
                     case "6":
-                        ReadAllBeneficiario();
+                        // Beneficiario();
                         break;
                     case "7":
-                        ReadAllBeneficiario();
+                        // ReadAllBeneficiario();/// crear opcion
                         break;
                     case "8":
-                        ReadAllBeneficiario();
+                        CreateTutor();
                         break;
                     case "9":
-                        ReadAllBeneficiario();
+                        ReadAllTutor();
                         break;
                     case "10":
-                        ReadAllBeneficiario();
+                        ReadTutor();
+                        break;
+                    case "11":
+                        UpdateTutor();
+                        break;
+                    case "12":
+                        DeleteTutor();
                         break;
                     case "0":
                         Console.WriteLine("Gracias por usar el sistema!");
@@ -356,21 +363,245 @@ namespace Fundacion_Resplandece_Kid
                 }
             }
         }
+        //CASO 12 ELIMINAR TUTOR
+        private static void DeleteTutor()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * ELIMINAR DATOS DE UN TUTOR * * * ║");
+            Console.WriteLine("╚════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.Write("Ingrese el código del tutor a eliminar: ");
+            string codigo = Console.ReadLine();
+            Tutores objTutorEliminar = BaseDeDatos.GetTutoresXCodigo(codigo);
+            if (objTutorEliminar == null)
+            {
+                Console.WriteLine("Código de tutores no encontrado.");
+            }
+            else
+            {
+                Console.WriteLine("¿Está seguro que desea eliminar este tutor? (S/N)");
+                string respuesta = Console.ReadLine().ToUpper();
+                if (respuesta == "S")
+                {
+                    BaseDeDatos.BaseDatosTutores.Remove(objTutorEliminar);
+                    Console.WriteLine("Tutor eliminado con éxito.");
+                }
+                else
+                {
+                    Console.WriteLine("Eliminación cancelada.");
+                }
+                Console.ReadLine();
+            }
+        }
 
+
+        //CASO 11 ACTUALIZAR DATOS DEL TUTOR
+        private static void UpdateTutor()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔══════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * ACTUALIZAR DATOS DE UN TUTOR * * * ║");
+            Console.WriteLine("╚══════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.Write("Ingrese el código del tutor a actualizar: ");
+            string codigo = Console.ReadLine();
+            Tutores objTutorActualizar = BaseDeDatos.GetTutoresXCodigo(codigo);
+
+            if (objTutorActualizar == null)
+            {
+                Console.WriteLine("Código de tutores no encontrado.");
+            }
+            else
+            {
+                objTutorActualizar.ImprimirTutores();
+                Console.WriteLine("\nIngrese los nuevos datos del tutor: ");
+
+                Console.Write("Ingrese los nuevos nombres del tutor: ");
+                string nombres = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese los nuevos apellidos del tutor: ");
+                string apellidos = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese el nuevo teléfono del beneficiario: ");
+                string telefono = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese el nuevo correo del beneficiario: ");
+                string correo = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese el nuevo grupo etario del tutor: ");
+                string grupo_etario = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese la nueva edad mínima del tutor: ");
+                string edad_minima = Console.ReadLine();
+                Console.WriteLine();
+
+                Console.Write("Ingrese la nueva edad máxima del tutor: ");
+                string edad_maxima = Console.ReadLine();
+                Console.WriteLine();
+
+                BaseDeDatos.BaseDatosTutores.RemoveAt(Convert.ToInt32(objTutorActualizar.getCodigo()) - 1);
+                BaseDeDatos.BaseDatosTutores.Insert(Convert.ToInt32(objTutorActualizar.getCodigo()) - 1, objTutorActualizar);
+                Console.WriteLine("Beneficiario actualizado con éxito.");
+                Console.ReadLine();
+            }
+        }
+
+
+        // CASO 10 BUSCAR TUTOR
+        private static void ReadTutor()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * CONSULTAR DATOS DE UN TUTOR * * * ║");
+            Console.WriteLine("╚═════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.Write("Ingrese el código del tutor a consultar: ");
+            string codigo = Console.ReadLine();
+
+            Tutores objTutorConsultar = BaseDeDatos.GetTutoresXCodigo(codigo);
+            if (objTutorConsultar == null)
+            {
+                Console.WriteLine("Código de beneficiario no encontrado.");
+            }
+            else
+            {
+                objTutorConsultar.ImprimirTutores();
+            }
+            Console.ReadLine();
+        }
+
+        //CASO 9 LISTAR TUTORES
+        private static void ReadAllTutor()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔══════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * LISTADO DE TODOS LOS TUTORES * * * ║");
+            Console.WriteLine("╚══════════════════════════════════════════╝");
+            Console.ResetColor();
+            foreach (var Tutores in BaseDeDatos.BaseDatosTutores)
+            {
+                Tutores.ImprimirTutores();
+            }
+            Console.ReadLine();
+        }
+
+        //CASO 8 CREAR TUTOR
+        private static void CreateTutor()
+        {
+            string nombres;
+            string apellidos;
+            string telefono;
+            string correo;
+            string grupo_etario;
+            string edad_minima;
+            string edad_maxima;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║   * * * CREACIÓN DEL BENEFICIARIO * * *   ║");
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Console.Write("Ingrese los nombres del tutor: ");
+            nombres = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Ingrese los apellidos del tutor: ");
+            apellidos = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Ingrese el teléfono del tutor: ");
+            telefono = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Ingrese el correo del beneficiario: ");
+            correo = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Ingrese el grupo etario del tutor: ");
+            grupo_etario = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Ingrese la edad mínima del tutor: ");
+            edad_minima = Console.ReadLine();
+            Console.WriteLine();
+            Console.Write("Ingrese la edad máxima del tutor: ");
+            edad_maxima = Console.ReadLine();
+            Console.WriteLine();
+            Clases.Tutores objTutor = new Clases.Tutores(nombres, apellidos, telefono, correo, grupo_etario, edad_minima, edad_maxima);
+            Console.WriteLine("Tutor " + nombres + " " + apellidos + " grabado con éxito!!");
+            Console.ReadLine();
+        }
+
+        //==========================================================================================================================================================        
+
+        //CASO 5 ELIMINAR BENEFICIARIO
+        private static void DeleteBeneficiario()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * ELIMINAR DATOS DE UN BENEFICIARIO * * * ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.Write("Ingrese el código del beneficiario a eliminar: ");
+            string codigo = Console.ReadLine();
+            Beneficiarios objBeneficiarioBusacado = BaseDeDatos.GetBeneficiariosXCodigo(codigo);
+            if (objBeneficiarioBusacado == null)
+            {
+                Console.WriteLine("Código de beneficiario no encontrado.");
+            }
+            else
+            {
+                Console.WriteLine("¿Está seguro que desea eliminar este beneficiario? (S/N)");
+                string respuesta = Console.ReadLine().ToUpper();
+                if (respuesta == "S")
+                {
+                    BaseDeDatos.BaseDatosBeneficiarios.Remove(objBeneficiarioBusacado);
+                    Console.WriteLine("Beneficiario eliminado con éxito.");
+                }
+                else
+                {
+                    Console.WriteLine("Eliminación cancelada.");
+                }
+                Console.ReadLine();
+            }
+        }
+
+
+        //CASO 4 ACTUALIZAR BENEFICIARIO
         private static void UpdateBeneficiario()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═════════════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * ACTUALIZAR DATOS DE UN BENEFICIARIO * * * ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════╝");
+            Console.ResetColor();
             Console.Write("Ingrese el código del beneficiario a actualizar: ");
             string codigo = Console.ReadLine();
-
             Beneficiarios objBeneficiarioActualizar = BaseDeDatos.GetBeneficiariosXCodigo(codigo);
+
             if (objBeneficiarioActualizar == null)
             {
                 Console.WriteLine("Código de beneficiario no encontrado.");
             }
             else
             {
-                objBeneficiarioActualizar.Imprimir();
+                objBeneficiarioActualizar.ImprimirBeneficiarios();
                 Console.WriteLine("\nIngrese los nuevos datos del beneficiario: ");
                 Console.Write("Ingrese la cédula del beneficiario: ");
                 string cedula = Console.ReadLine();
@@ -404,20 +635,22 @@ namespace Fundacion_Resplandece_Kid
                 Console.Write("Ingrese el nuevo email del beneficiario: ");
                 string email = Console.ReadLine();
                 Console.WriteLine();
-                BaseDeDatos.BaseDatosBeneficiarios.RemoveAt(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) -1);
-                BaseDeDatos.BaseDatosBeneficiarios.Insert(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) -1, objBeneficiarioActualizar);
+                BaseDeDatos.BaseDatosBeneficiarios.RemoveAt(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) - 1);
+                BaseDeDatos.BaseDatosBeneficiarios.Insert(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) - 1, objBeneficiarioActualizar);
                 Console.WriteLine("Beneficiario actualizado con éxito.");
                 Console.ReadLine();
-                Console.WriteLine();
-
-
             }
         }
 
-        //CASO3 CONSULTAR
+        //CASO3 CONSULTAR BENEFICIARIO POR CODIGO
         private static void ReadBeneficiario()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔════════════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * CONSULTAR DATOS DE UN BENEFICIARIO * * * ║");
+            Console.WriteLine("╚════════════════════════════════════════════════╝");
+            Console.ResetColor();
             Console.Write("Ingrese el código del beneficiario a consultar: ");
             string codigo = Console.ReadLine();
 
@@ -428,25 +661,27 @@ namespace Fundacion_Resplandece_Kid
             }
             else
             {
-                objBeneficiarioConsultar.Imprimir();
+                objBeneficiarioConsultar.ImprimirBeneficiarios();
             }
             Console.ReadLine();
         }
-        //CASO 2 LISTAR
+        //CASO 2 LISTAR TODOS LOS BENEFICIARIOS
         private static void ReadAllBeneficiario()
         {
             Console.Clear();
-            Console.WriteLine("╔═══════════════════════════════════════════╗");
-            Console.WriteLine("║           LISTA DE BENEFICIARIOS          ║");
-            Console.WriteLine("╚═══════════════════════════════════════════╝");
-            foreach (var usuario in BaseDeDatos.BaseDatosBeneficiarios)
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔════════════════════════════════════════════════╗");
+            Console.WriteLine("║ * * * LISTADO DE TODOS LOS BENEFICIARIOS * * * ║");
+            Console.WriteLine("╚════════════════════════════════════════════════╝");
+            Console.ResetColor();
+            foreach (var beneficiarios in BaseDeDatos.BaseDatosBeneficiarios)
             {
-                usuario.Imprimir();
+                beneficiarios.ImprimirBeneficiarios();
             }
             Console.ReadLine();
         }
 
-        //CASO 1
+        //CASO 1 CREAR BENEFICIARIO
         private static void CreateBeneficiario()
         {
             string cedula;

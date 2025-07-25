@@ -43,10 +43,10 @@ namespace Fundacion_Resplandece_Kid.Clases
         public void Imprimir()
         {
             Console.WriteLine(" ╔══════════════════════════════════════════════════════════════╗");
-            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(52) +                       "║");
-            Console.WriteLine($"║ Usuario: {this.usuario}".PadRight(52) +                     "║");
-            Console.WriteLine($"║ Contraseña: {this.contrasena}".PadRight(52) +               "║");
-            Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) +                             "║");
+            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(52) + "║");
+            Console.WriteLine($"║ Usuario: {this.usuario}".PadRight(52) + "║");
+            Console.WriteLine($"║ Contraseña: {this.contrasena}".PadRight(52) + "║");
+            Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) + "║");
             Console.WriteLine(" ╚══════════════════════════════════════════════════════════════╝");
         }
 
@@ -69,7 +69,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             }
             return false;
         }
-         
+
     }
 }
 

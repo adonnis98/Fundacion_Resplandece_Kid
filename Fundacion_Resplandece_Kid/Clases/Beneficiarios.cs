@@ -25,10 +25,10 @@ namespace Fundacion_Resplandece_Kid.Clases
 
 
 
-        public Beneficiarios(string codigo,string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
+        public Beneficiarios(string codigo, string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
         {
             this.id = BaseDeDatos.BaseDatosBeneficiarios.Count() + 1; // Generación de ID secuencial
-            this.codigo = "00" + this.id.ToString(); // Generación de código único
+            this.codigo = "BE" + this.id.ToString("D5"); // Generación de código único
             this.cedula = cedula;
             this.nombres = nombres;
             this.apellidos = apellidos;
@@ -40,7 +40,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             this.email = email;
             this.fecha_nacimiento = fecha_nacimiento;
             this.edad = DateTime.Now.Year - this.fecha_nacimiento.Year;
-            this.nombres_completos = this.nombres + " " + this.apellidos;   
+            this.nombres_completos = this.nombres + " " + this.apellidos;
             BaseDeDatos.BaseDatosBeneficiarios.Add(this);
         }
         public int GetId()
@@ -65,9 +65,9 @@ namespace Fundacion_Resplandece_Kid.Clases
             this.apellidos = apellidos;
             this.nombres_completos = this.nombres + " " + this.apellidos;
         }
-        public string GetNombresCompletos() 
+        public string GetNombresCompletos()
         {
-            return nombres_completos;   
+            return nombres_completos;
         }
         public DateTime GetFechaNacimiento()
         {
@@ -100,33 +100,33 @@ namespace Fundacion_Resplandece_Kid.Clases
 
 
 
-        public void Imprimir()
+        public void ImprimirBeneficiarios()
         {
             Console.WriteLine(" ╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine(" ║                 Datos del beneficiario registrado             ║".PadRight(80) + "║");
-            Console.WriteLine($"║ ID: {this.id}".PadRight(80) +                                                   "║");
-            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(80) +                                           "║");
-            Console.WriteLine($"║ Cédula: {this.cedula}".PadRight(80) +                                           "║");
-            Console.WriteLine($"║ Nombres Completos: {this.nombres_completos}".PadRight(80) +                     "║");
-            Console.WriteLine($"║ Fecha de Nacimiento:{this.fecha_nacimiento.ToShortDateString()} ".PadRight(80) +"║");
-            Console.WriteLine($"║ Edad: {this.edad} años ".PadRight(80) +                                         "║");
-            Console.WriteLine($"║ Dirección: {this.direccion}".PadRight(80) +                                     "║");
-            Console.WriteLine($"║ Teléfono: {this.telefono}".PadRight(80) +                                       "║");
-            Console.WriteLine($"║ Email: {this.email}".PadRight(80) +                                             "║");
-            Console.WriteLine($"║ Plantel Educativo: {this.plantel_educativo}".PadRight(80) +                     "║");
-            Console.WriteLine($"║ Año Educativo: {this.anio_educativo}".PadRight(80) +                            "║");
+            Console.WriteLine($"║ ID: {this.id}".PadRight(80) + "║");
+            Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(80) + "║");
+            Console.WriteLine($"║ Cédula: {this.cedula}".PadRight(80) + "║");
+            Console.WriteLine($"║ Nombres Completos: {this.nombres_completos}".PadRight(80) + "║");
+            Console.WriteLine($"║ Fecha de Nacimiento:{this.fecha_nacimiento.ToShortDateString()} ".PadRight(80) + "║");
+            Console.WriteLine($"║ Edad: {this.edad} años ".PadRight(80) + "║");
+            Console.WriteLine($"║ Dirección: {this.direccion}".PadRight(80) + "║");
+            Console.WriteLine($"║ Teléfono: {this.telefono}".PadRight(80) + "║");
+            Console.WriteLine($"║ Email: {this.email}".PadRight(80) + "║");
+            Console.WriteLine($"║ Plantel Educativo: {this.plantel_educativo}".PadRight(80) + "║");
+            Console.WriteLine($"║ Año Educativo: {this.anio_educativo}".PadRight(80) + "║");
             Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
-          //  Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
+            //  Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
             //if (this.representante != null)
             //{
-                //Console.WriteLine($"║ Cédula Rep.: {this.representante.GetCedula()}".PadRight(80) + "║");
-                //Console.WriteLine($"║ Teléfono Rep.: {this.representante.GetTelefono()}".PadRight(80) + "║");
-                //Console.WriteLine($"║ Dirección Rep.: {this.representante.GetDireccion()}".PadRight(80) + "║");
-              //  Console.WriteLine($"║ Parentesco : {this.representante.GetRelacionConBeneficiario()}".PadRight(80) + "║");
+            //Console.WriteLine($"║ Cédula Rep.: {this.representante.GetCedula()}".PadRight(80) + "║");
+            //Console.WriteLine($"║ Teléfono Rep.: {this.representante.GetTelefono()}".PadRight(80) + "║");
+            //Console.WriteLine($"║ Dirección Rep.: {this.representante.GetDireccion()}".PadRight(80) + "║");
+            //  Console.WriteLine($"║ Parentesco : {this.representante.GetRelacionConBeneficiario()}".PadRight(80) + "║");
             //}
-           // else
+            // else
             //{
-              //  Console.WriteLine($"║ No hay representante asignado para este beneficiario.     ║".PadRight(80) + "║");
+            //  Console.WriteLine($"║ No hay representante asignado para este beneficiario.     ║".PadRight(80) + "║");
             //}
             //Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════╝");
         }

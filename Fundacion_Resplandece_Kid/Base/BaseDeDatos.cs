@@ -29,28 +29,28 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
                 archivoExistente.Close();
             }
         }
-
+//=================================================================================================================================
 
         public static List<Usuarios> BaseDatosUsuarios = new List<Usuarios>();
-        private static string nombreBaseDatosUsuaros= "Usuarios.dat";
+        private static string nombreBaseDatosUsuarios= "Usuarios.dat";
 
-        public static void guardarDatosEnArchivo()
+        public static void GuardarDatosEnArchivo()
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuaros, FileMode.Create);
+            FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuarios, FileMode.Create);
             bf.Serialize(nuevoArchivo, BaseDatosUsuarios);
         }
-        public static void cargarDatosDesdeArchivo()
+        public static void CargarDatosDesdeArchivo()
         {
-            if (File.Exists(nombreBaseDatosUsuaros))
+            if (File.Exists(nombreBaseDatosUsuarios))
             {
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream archivoExistente = new FileStream(nombreBaseDatosUsuaros, FileMode.Open);
+                FileStream archivoExistente = new FileStream(nombreBaseDatosUsuarios, FileMode.Open);
                 BaseDatosUsuarios = (List<Usuarios>)bf.Deserialize(archivoExistente);
                 archivoExistente.Close();
             }
         }
-
+//=================================================================================================================================
         public static Beneficiarios GetBeneficiariosXCodigo(string codigo )
         {
             foreach (var item in BaseDatosBeneficiarios)
@@ -62,8 +62,38 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
             }
             return null;
         }
-        
 
+        public static Tutores GetTutoresXCodigo(string codigo)
+        {
+            foreach (var item in BaseDatosTutores)
+            {
+                if (item.getCodigo() == codigo)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        //=================================================================================================================================        
+        public static List<Tutores> BaseDatosTutores = new List<Tutores>();
+        private static string nombreBaseDatosTutores = "Tutores.dat";
+
+        public static void guardarDatosEnArchivo()
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream nuevoArchivo = new FileStream(nombreBaseDatosTutores, FileMode.Create);
+            bf.Serialize(nuevoArchivo, BaseDatosTutores);
+        }
+        public static void cargarDatosDesdeArchivo()
+        {
+            if (File.Exists(nombreBaseDatosTutores))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream archivoExistente = new FileStream(nombreBaseDatosTutores, FileMode.Open);
+                BaseDatosTutores = (List<Tutores>)bf.Deserialize(archivoExistente);
+                archivoExistente.Close();
+            }
+        }
         // public static void CrearUsuariosAdministrativos()
         //{
         //  Usuarios admin1 = new Usuarios("DA2025", "David", "Administrador");
