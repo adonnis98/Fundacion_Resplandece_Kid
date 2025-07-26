@@ -13,11 +13,9 @@ namespace Fundacion_Resplandece_Kid
         private static Clases.Usuarios gestionUsuarios = new Clases.Usuarios();
         static void Main(string[] args)
         {
-            // Inicializar los usuarios administrativos al inicio
+
             gestionUsuarios = new Clases.Usuarios();
-
-
-            MostrarMenuPrincipal(); // Menú principal para el usuario antes de ingresar al sistema
+            MostrarMenuPrincipal();
         }
 
         public static void MostrarMenuPrincipal()
@@ -45,7 +43,7 @@ namespace Fundacion_Resplandece_Kid
             for (int i = 0; i < 5; i++)
             {
                 Console.Write(".");
-                Thread.Sleep(300); // Reducido el tiempo de espera para que sea más rápido
+                Thread.Sleep(300);
             }
             Console.ResetColor();
 
@@ -84,7 +82,6 @@ namespace Fundacion_Resplandece_Kid
             }
         }
 
-        //OPCION 1 INGRESAR AL SISTEMA
         private static void IngresaralSistema()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -119,8 +116,7 @@ namespace Fundacion_Resplandece_Kid
             }
             Console.WriteLine("\n¡Autenticación exitosa! Presione cualquier tecla para continuar al menú principal.");
             Console.ReadLine();
-            DisplayMainMenu(); // Llama al menú principal una vez autenticado
-        }
+            DisplayMainMenu();
 
         private static string ReadPassword()
         {
@@ -199,7 +195,7 @@ namespace Fundacion_Resplandece_Kid
 
 
 
-        //CASO 3 ELIMINAR
+        //ELIMINAR USUARIO
         private static void EliminarUsuario()
         {
             Console.Clear();
@@ -226,7 +222,7 @@ namespace Fundacion_Resplandece_Kid
             }
             Console.ReadLine();
         }
-        //CASO 3 CONSULTAR
+        //CONSULTAR USUARIO 
         private static void ConsultarUsuarios()
         {
             Console.Clear();
@@ -246,7 +242,7 @@ namespace Fundacion_Resplandece_Kid
             Console.ReadLine();
         }
 
-        //CASO 2 MOSTRAR LISTA
+        //MOSTRAR LISTA DE TODOS USUARIOS
         private static void ListaUsuarios()
         {
             Console.Clear();
@@ -258,7 +254,7 @@ namespace Fundacion_Resplandece_Kid
 
         }
 
-        //CASO 1 CREAR
+        //CREAR USUARIOS
         private static void CrearUsuario()
         {
             Console.Clear();
@@ -300,13 +296,12 @@ namespace Fundacion_Resplandece_Kid
                 Console.WriteLine("║  3.  CONSULTAR DATOS DE UN BENEFICIARIO               ║  ");//R
                 Console.WriteLine("║  4.  ACTUALIZAR DATOS DE UN BENEFICIARIO              ║  ");//U
                 Console.WriteLine("║  5.  ELIMINAR DATOS DE UN BENEFICIARIO                ║  ");//D
-                Console.WriteLine("║  6.  BUSCAR BENEFICIARIO POR CODIGO                   ║  ");
-                Console.WriteLine("║  7.  REPORTES DE BENEFICIARIOS                        ║  ");
-                Console.WriteLine("║  8.  REGISTRAR NUEVO TUTOR                            ║  ");//C
-                Console.WriteLine("║  9.  LISTADO DE TODOS LOS TUTORES                     ║  ");//RALL
-                Console.WriteLine("║  10. CONSULTAR DATOS DE UN TUTOR                      ║  ");//R
-                Console.WriteLine("║  11. ACTUALIZAR DATOS DE TUTOR                        ║  ");//U
-                Console.WriteLine("║  12. ELIMINAR DATOS DE TUTOR                          ║  ");//D
+                Console.WriteLine("║  6.  REPORTES DE BENEFICIARIOS                        ║  ");// OJO ESTO AQUI NO SE COMO AGREGARLE AQUI SE SUPONE QUE DEBERIA IR EL REPORTE MEDICO Y OTRAS OBSERVACIONES
+                Console.WriteLine("║  7.  REGISTRAR NUEVO TUTOR                            ║  ");//C
+                Console.WriteLine("║  8.  LISTADO DE TODOS LOS TUTORES                     ║  ");//RALL
+                Console.WriteLine("║  9. CONSULTAR DATOS DE UN TUTOR                       ║  ");//R
+                Console.WriteLine("║  10. ACTUALIZAR DATOS DE TUTOR                        ║  ");//U
+                Console.WriteLine("║  11. ELIMINAR DATOS DE TUTOR                          ║  ");//D
                 Console.WriteLine("║  0 SALIR                                              ║  ");
                 Console.WriteLine("╚═══════════════════════════════════════════════════════╝  ");
                 Console.ResetColor();
@@ -317,39 +312,36 @@ namespace Fundacion_Resplandece_Kid
                 switch (opcion)
                 {
                     case "1":
-                        CreateBeneficiario();
+                        CreateBeneficiario();//C
                         break;
                     case "2":
-                        ReadAllBeneficiario();
+                        ReadAllBeneficiario();//RALL
                         break;
                     case "3":
-                        ReadBeneficiario();
+                        ReadBeneficiario();//R
                         break;
                     case "4":
-                        UpdateBeneficiario();
+                        UpdateBeneficiario();//U
                         break;
                     case "5":
-                        DeleteBeneficiario();
+                        DeleteBeneficiario();//D
                         break;
                     case "6":
-                        // Beneficiario();
+                        // Beneficiario(); // Aquí se podría implementar un reporte de beneficiarios, pero no está definido.
                         break;
                     case "7":
-                        // ReadAllBeneficiario();/// crear opcion
-                        break;
-                    case "8":
                         CreateTutor();
                         break;
-                    case "9":
+                    case "8":
                         ReadAllTutor();
                         break;
-                    case "10":
+                    case "9":
                         ReadTutor();
                         break;
-                    case "11":
+                    case "10":
                         UpdateTutor();
                         break;
-                    case "12":
+                    case "11":
                         DeleteTutor();
                         break;
                     case "0":
@@ -363,7 +355,7 @@ namespace Fundacion_Resplandece_Kid
                 }
             }
         }
-        //CASO 12 ELIMINAR TUTOR
+        //ELIMINAR TUTOR
         private static void DeleteTutor()
         {
             Console.Clear();
@@ -398,7 +390,7 @@ namespace Fundacion_Resplandece_Kid
         }
 
 
-        //CASO 11 ACTUALIZAR DATOS DEL TUTOR
+        //ACTUALIZAR DATOS DE ALGUN TUTOR
         private static void UpdateTutor()
         {
             Console.Clear();
@@ -456,7 +448,7 @@ namespace Fundacion_Resplandece_Kid
         }
 
 
-        // CASO 10 BUSCAR TUTOR
+        // BUSCAR TUTOR POR CODIGO
         private static void ReadTutor()
         {
             Console.Clear();
@@ -480,7 +472,7 @@ namespace Fundacion_Resplandece_Kid
             Console.ReadLine();
         }
 
-        //CASO 9 LISTAR TUTORES
+        //LISTA DE TODOS LOS TUTORES
         private static void ReadAllTutor()
         {
             Console.Clear();
@@ -496,7 +488,7 @@ namespace Fundacion_Resplandece_Kid
             Console.ReadLine();
         }
 
-        //CASO 8 CREAR TUTOR
+        //CREAR TUTOR
         private static void CreateTutor()
         {
             string nombres;
@@ -547,7 +539,7 @@ namespace Fundacion_Resplandece_Kid
 
         //==========================================================================================================================================================        
 
-        //CASO 5 ELIMINAR BENEFICIARIO
+        //ELIMINAR BENEFICIARIO
         private static void DeleteBeneficiario()
         {
             Console.Clear();
@@ -582,7 +574,7 @@ namespace Fundacion_Resplandece_Kid
         }
 
 
-        //CASO 4 ACTUALIZAR BENEFICIARIO
+        //ACTUALIZAR DATOS DE UN BENEFICIARIO
         private static void UpdateBeneficiario()
         {
             Console.Clear();
@@ -642,7 +634,7 @@ namespace Fundacion_Resplandece_Kid
             }
         }
 
-        //CASO3 CONSULTAR BENEFICIARIO POR CODIGO
+        //CONSULTAR BENEFICIARIO POR CODIGO
         private static void ReadBeneficiario()
         {
             Console.Clear();
@@ -665,7 +657,7 @@ namespace Fundacion_Resplandece_Kid
             }
             Console.ReadLine();
         }
-        //CASO 2 LISTAR TODOS LOS BENEFICIARIOS
+        //LISTA DE TODOS LOS BENEFICIARIOS
         private static void ReadAllBeneficiario()
         {
             Console.Clear();
@@ -681,7 +673,7 @@ namespace Fundacion_Resplandece_Kid
             Console.ReadLine();
         }
 
-        //CASO 1 CREAR BENEFICIARIO
+        //CREAR BENEFICIARIO
         private static void CreateBeneficiario()
         {
             string cedula;

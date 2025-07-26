@@ -19,23 +19,21 @@ namespace Fundacion_Resplandece_Kid.Clases
 
         public Usuarios(string usuario, string contrasena, string rol)
         {
-            this.id = BaseDeDatos.BaseDatosUsuarios.Count() + 1; // Genera un ID secuencial para el usuario
+            this.id = BaseDeDatos.BaseDatosUsuarios.Count() + 1; 
             this.usuario = usuario;
             this.contrasena = contrasena;
             this.rol = rol;
             this.codigo = this.usuario.Substring(0, 2) + "-" + this.id.ToString();
             BaseDeDatos.BaseDatosUsuarios.Add(this);
         }
-        public List<Usuarios> UsuariosDelSistema;// Lista de usuarios del sistema
+        public List<Usuarios> UsuariosDelSistema;
 
         public Usuarios()
         {
-            UsuariosDelSistema = new List<Usuarios>();// Inicializa la lista de usuarios del sistema
+            UsuariosDelSistema = new List<Usuarios>();
         }
 
-
-        //codigo por tener private
-        public string getCodigo()// 
+        public string getCodigo()
         {
             return this.codigo;
         }
@@ -50,14 +48,14 @@ namespace Fundacion_Resplandece_Kid.Clases
             Console.WriteLine(" ╚══════════════════════════════════════════════════════════════╝");
         }
 
-        public void MostrarUsuarios() // muestra los usuarios registrados en la base de datos
+        public void MostrarUsuarios() 
         {
             foreach (var usuario in BaseDeDatos.BaseDatosUsuarios)
             {
                 Console.WriteLine($"Usuario: {usuario.usuario}, Rol: {usuario.rol}");
             }
         }
-        // con esto autentificamos a un usuario si son los registrados
+      
         public bool AutenticarUsuario(string username, string password)
         {
             foreach (var user in BaseDeDatos.BaseDatosUsuarios)

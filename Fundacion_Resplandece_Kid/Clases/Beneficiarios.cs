@@ -22,13 +22,15 @@ namespace Fundacion_Resplandece_Kid.Clases
         private string email;
         private int edad;
         private string nombres_completos;
+        public Tutores TutorAsignado { get; private set; } 
 
 
 
-        public Beneficiarios(string codigo, string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
+
+        public Beneficiarios(string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
         {
-            this.id = BaseDeDatos.BaseDatosBeneficiarios.Count() + 1; // Generación de ID secuencial
-            this.codigo = "BE" + this.id.ToString("D5"); // Generación de código único
+            this.id = BaseDeDatos.BaseDatosBeneficiarios.Count() + 1;
+            this.codigo = "BE" + this.id.ToString("D5"); 
             this.cedula = cedula;
             this.nombres = nombres;
             this.apellidos = apellidos;
@@ -40,8 +42,22 @@ namespace Fundacion_Resplandece_Kid.Clases
             this.email = email;
             this.fecha_nacimiento = fecha_nacimiento;
             this.edad = DateTime.Now.Year - this.fecha_nacimiento.Year;
+            if (DateTime.Now.Month < this.fecha_nacimiento.Month || (DateTime.Now.Month == this.fecha_nacimiento.Month && DateTime.Now.Day < this.fecha_nacimiento.Day))
+            {
+                this.edad--;
+            }
             this.nombres_completos = this.nombres + " " + this.apellidos;
+            AsignarTutorPorEdad();
             BaseDeDatos.BaseDatosBeneficiarios.Add(this);
+        }
+
+        private void AsignarTutorPorEdad()
+        {
+            this.TutorAsignado = BaseDeDatos.BaseDatosTutores.FirstOrDefault(t => this.edad >= t.GetEdadMinima() && this.edad <= t.GetEdadMaxima());
+            if (this.TutorAsignado == null)
+            {
+                Console.WriteLine($"Advertencia: No se encontró un tutor adecuado para {this.nombres_completos} (Edad: {this.edad}).");
+            }
         }
         public int GetId()
         {
@@ -104,6 +120,7 @@ namespace Fundacion_Resplandece_Kid.Clases
         {
             Console.WriteLine(" ╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine(" ║                 Datos del beneficiario registrado             ║".PadRight(80) + "║");
+            Console.WriteLine(" ╚══════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine($"║ ID: {this.id}".PadRight(80) + "║");
             Console.WriteLine($"║ Codigo: {this.codigo}".PadRight(80) + "║");
             Console.WriteLine($"║ Cédula: {this.cedula}".PadRight(80) + "║");
@@ -115,7 +132,18 @@ namespace Fundacion_Resplandece_Kid.Clases
             Console.WriteLine($"║ Email: {this.email}".PadRight(80) + "║");
             Console.WriteLine($"║ Plantel Educativo: {this.plantel_educativo}".PadRight(80) + "║");
             Console.WriteLine($"║ Año Educativo: {this.anio_educativo}".PadRight(80) + "║");
-            Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
+            if (TutorAsignado != null)
+            {
+                Console.WriteLine($"║ Tutor Asignado: {TutorAsignado.GetNombresCompletos()} (Código: {TutorAsignado.getCodigo()})".PadRight(80) + "║");
+                Console.WriteLine($"║ Grupo Etario del Tutor: {TutorAsignado.GetGrupoEtario()} (Edades: {TutorAsignado.GetEdadMinima()} - {TutorAsignado.GetEdadMaxima()} años)".PadRight(80) + "║");
+            }
+            else
+            {
+                Console.WriteLine($"║ Tutor Asignado: N/A (No se encontró un tutor para esta edad)".PadRight(80) + "║");
+            }
+            Console.WriteLine(" ╚══════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
             //  Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
             //if (this.representante != null)
             //{
