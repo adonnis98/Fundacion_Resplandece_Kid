@@ -48,7 +48,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             }
             this.nombres_completos = this.nombres + " " + this.apellidos;
             AsignarTutorPorEdad();
-            BaseDeDatos.BaseDatosBeneficiarios.Add(this);
+            
         }
 
         private void AsignarTutorPorEdad()

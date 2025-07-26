@@ -19,12 +19,12 @@ namespace Fundacion_Resplandece_Kid.Clases
 
         public Usuarios(string usuario, string contrasena, string rol)
         {
-            this.id = BaseDeDatos.BaseDatosUsuarios.Count() + 1; 
+            this.id = BaseDeDatos.BaseDatosUsuarios.Count() + 1;
             this.usuario = usuario;
             this.contrasena = contrasena;
             this.rol = rol;
             this.codigo = this.usuario.Substring(0, 2) + "-" + this.id.ToString();
-            BaseDeDatos.BaseDatosUsuarios.Add(this);
+            
         }
         public List<Usuarios> UsuariosDelSistema;
 
@@ -47,15 +47,15 @@ namespace Fundacion_Resplandece_Kid.Clases
             Console.WriteLine($"║ Rol: {this.rol}".PadRight(52) + "║");
             Console.WriteLine(" ╚══════════════════════════════════════════════════════════════╝");
         }
-
-        public void MostrarUsuarios() 
+        public void MostrarUsuarios()
         {
             foreach (var usuario in BaseDeDatos.BaseDatosUsuarios)
             {
                 Console.WriteLine($"Usuario: {usuario.usuario}, Rol: {usuario.rol}");
             }
         }
-      
+
+
         public bool AutenticarUsuario(string username, string password)
         {
             foreach (var user in BaseDeDatos.BaseDatosUsuarios)

@@ -22,7 +22,7 @@ namespace Fundacion_Resplandece_Kid.Clases
         {
             this.cedula = cedula;
             this.nombres = nombres;
-            this.apellidos = apellidos; 
+            this.apellidos = apellidos;
             this.telefono = telefono;
             this.email = email;
             this.parentesco = parentesco;
@@ -92,7 +92,7 @@ namespace Fundacion_Resplandece_Kid.Clases
 
         public void ImprimirResponsable()
         {
-            Console.WriteLine("\n ╔══════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine(" ╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine(" ║                  DATOS DEL PADRE/MADRE/RESPONSABLE                               ║".PadRight(80) + "║");
             Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
             Console.WriteLine($"║ Cédula: {this.cedula}".PadRight(80) + "║");

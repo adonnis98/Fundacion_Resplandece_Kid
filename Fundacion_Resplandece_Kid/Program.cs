@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using Fundacion_Resplandece_Kid.Clases.Base;
 using Fundacion_Resplandece_Kid.Clases;
+using System.Net.Mail;
+using System.Net;
 
 namespace Fundacion_Resplandece_Kid
 {
@@ -13,8 +15,79 @@ namespace Fundacion_Resplandece_Kid
         private static Clases.Usuarios gestionUsuarios = new Clases.Usuarios();
         static void Main(string[] args)
         {
+            BaseDeDatos.cargarDatosDesdeArchivoBeneficiarios();
+            BaseDeDatos.cargarDatosDesdeArchivoResponsable();
+            BaseDeDatos.cargarDatosDesdeArchivoTutores();
+            BaseDeDatos.cargarDatosDesdeArchivoUsuarios();
 
             MostrarMenuPrincipal();
+        }
+        private static void SendReportByEmail()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║        * * * ENVIAR REPORTE POR CORREO * * * ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            if (BaseDeDatos.BaseDatosBeneficiarios.Count == 0)
+            {
+                Console.WriteLine("No hay beneficiarios registrados para generar un reporte.");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.Write("Ingrese el correo electrónico del destinatario: ");
+            string destinatarioEmail = Console.ReadLine();
+
+            Console.Write("Ingrese su dirección de correo (remitente): ");
+            string remitenteEmail = Console.ReadLine();// Esto es para el correo del remitente, que enviará el reporte.
+
+            Console.Write("Ingrese la contraseña de su correo (remitente - app password si usas Gmail): ");
+            string remitentePassword = ReadPassword(); // Esto es para leer la contraseña sin mostrarla en la consola.
+
+            // Construir el contenido del reporte
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Reporte de Beneficiarios de Fundación Resplandece Kid\n");
+            sb.AppendLine("=====================================================\n");
+
+            foreach (var beneficiario in BaseDeDatos.BaseDatosBeneficiarios)
+            {
+                sb.AppendLine($"Código: {beneficiario.getCodigo()}");
+                sb.AppendLine($"Nombre Completo: {beneficiario.GetNombresCompletos()}");
+                sb.AppendLine($"Cédula: {beneficiario.GetCedula()}");
+                sb.AppendLine($"Dirección: {beneficiario.GetDireccion()}");
+                sb.AppendLine($"Fecha Nacimiento: {beneficiario.GetFechaNacimiento():dd/MM/yyyy}");
+                sb.AppendLine($"Edad: {beneficiario.GetEdad()} años");
+                sb.AppendLine($"Plantel Educativo: {beneficiario.GetPlantelEducativo()}");
+                sb.AppendLine($"Año Educativo: {beneficiario.GetAnioEducativo()}");
+                sb.AppendLine($"Teléfono: {beneficiario.GetTelefono()}");
+                sb.AppendLine($"Email: {beneficiario.GetEmail()}\n");
+                sb.AppendLine("-----------------------------------------------------\n");
+            }
+
+            // Configuración del correo
+            MailMessage mail = new MailMessage();   
+            mail.From = new MailAddress(remitenteEmail);
+            mail.To.Add(destinatarioEmail);
+            mail.Subject = "Reporte de Beneficiarios - Fundación Resplandece Kid";
+            mail.Body = sb.ToString();
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com"); 
+            smtpClient.Port = 587; 
+            smtpClient.Credentials = new NetworkCredential(remitenteEmail, remitentePassword); 
+            smtpClient.EnableSsl = true; 
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.UseDefaultCredentials = false; 
+
+            Console.WriteLine("\nEnviando correo, por favor espere...");
+            smtpClient.Send(mail); // Si ocurre un error aquí, el programa se detendrá.
+            Console.WriteLine("Reporte enviado con éxito a " + destinatarioEmail);
+
+            Console.WriteLine("Presione cualquier tecla para continuar.");
+            Console.ReadLine();
         }
 
         public static void MostrarMenuPrincipal()
@@ -167,6 +240,7 @@ namespace Fundacion_Resplandece_Kid
             {
                 case "1":
                     CrearUsuario();
+                    BaseDeDatos.guardarDatosEnArchivoUsuarios();
                     break;
 
                 case "2":
@@ -178,6 +252,7 @@ namespace Fundacion_Resplandece_Kid
 
                 case "4":
                     EliminarUsuario();
+                    BaseDeDatos.guardarDatosEnArchivoUsuarios();
                     break;
 
                 case "5":
@@ -315,6 +390,7 @@ namespace Fundacion_Resplandece_Kid
                 {
                     case "1":
                         CreateBeneficiario();//C
+                        BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
                         break;
                     case "2":
                         ReadAllBeneficiario();//RALL
@@ -324,15 +400,18 @@ namespace Fundacion_Resplandece_Kid
                         break;
                     case "4":
                         UpdateBeneficiario();//U
+                        BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
                         break;
                     case "5":
                         DeleteBeneficiario();//D
+                        BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
                         break;
                     case "6":
                         // Beneficiario(); // Aquí se podría implementar un reporte de beneficiarios, pero no está definido.
                         break;
                     case "7":
                         CreateTutor();
+                        BaseDeDatos.guardarDatosEnArchivoTutores();
                         break;
                     case "8":
                         ReadAllTutor();
@@ -342,9 +421,11 @@ namespace Fundacion_Resplandece_Kid
                         break;
                     case "10":
                         UpdateTutor();
+                        BaseDeDatos.guardarDatosEnArchivoTutores();
                         break;
                     case "11":
                         DeleteTutor();
+                        BaseDeDatos.guardarDatosEnArchivoTutores();
                         break;
                     case "0":
                         Console.WriteLine("Gracias por usar el sistema!");
@@ -735,13 +816,6 @@ namespace Fundacion_Resplandece_Kid
 
             Console.Write("Ingrese el email del beneficiario: ");
             emailBeneficiario = Console.ReadLine();
-            Console.WriteLine();
-
-            Beneficiarios nuevoBeneficiario = new Beneficiarios(cedulaBeneficiario, nombresBeneficiario, apellidosBeneficiario, direccion, fecha_nacimiento, plantel_educativo, anio_educativo, telefono, emailBeneficiario);
-            BaseDeDatos.BaseDatosBeneficiarios.Add(nuevoBeneficiario);
-            BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
-            Console.WriteLine("\n¡Beneficiario registrado con éxito!");
-            nuevoBeneficiario.ImprimirBeneficiarios();
 
             // --- Datos del Responsable ---
             Console.WriteLine("\n--- Ingrese los Datos del Padre/Madre/Responsable ---");
@@ -769,13 +843,17 @@ namespace Fundacion_Resplandece_Kid
             string parentesco = Console.ReadLine();
             Console.WriteLine();
 
+            Beneficiarios nuevoBeneficiario = new Beneficiarios(cedulaBeneficiario, nombresBeneficiario, apellidosBeneficiario, direccion, fecha_nacimiento, plantel_educativo, anio_educativo, telefono, emailBeneficiario);
+            BaseDeDatos.BaseDatosBeneficiarios.Add(nuevoBeneficiario);
+            BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
+            nuevoBeneficiario.ImprimirBeneficiarios();
 
             Responsable nuevoResponsable = new Responsable(cedulaResponsable, nombresResponsable, apellidosResponsable, telefonoResponsable, emailResponsable, parentesco);
             BaseDeDatos.BaseDatosResponsable.Add(nuevoResponsable);
             BaseDeDatos.guardarDatosEnArchivoResponsable();
-            Console.WriteLine("\n¡Responsable registrado con éxito!");
+            Console.WriteLine("\n¡Beneficiario registrado con éxito!");
             nuevoResponsable.ImprimirResponsable();
-            
+
 
         }
 

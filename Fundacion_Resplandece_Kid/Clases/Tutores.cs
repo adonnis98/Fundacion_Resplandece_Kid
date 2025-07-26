@@ -33,7 +33,7 @@ namespace Fundacion_Resplandece_Kid.Clases
             this.edad_minima = 0;
             this.edad_maxima = 18;
             this.nombres_completos = this.nombres + " " + this.apellidos;
-            BaseDeDatos.BaseDatosTutores.Add(this);
+            
         }
         //{ }
         public int GetId()

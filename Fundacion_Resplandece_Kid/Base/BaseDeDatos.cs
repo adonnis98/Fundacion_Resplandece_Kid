@@ -41,13 +41,14 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
             }
             return null;
         }
-        public static void MostrarBeneficiarios()
+         public static void MostrarBeneficiarios()
         {
             foreach (var beneficiarios in BaseDatosBeneficiarios)
             {
                 beneficiarios.ImprimirBeneficiarios();
             }
         }
+       
 
 
         //=================================================================================================================================
