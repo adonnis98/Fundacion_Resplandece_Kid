@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Base\BaseDeDatos.cs" />
     <Compile Include="Clases\Beneficiarios.cs" />
+    <Compile Include="Clases\Responsable.cs" />
     <Compile Include="Clases\Tutores.cs" />
     <Compile Include="Clases\Usuarios.cs" />
     <Compile Include="Program.cs" />

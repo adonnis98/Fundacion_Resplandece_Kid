@@ -14,7 +14,6 @@ namespace Fundacion_Resplandece_Kid
         static void Main(string[] args)
         {
 
-            gestionUsuarios = new Clases.Usuarios();
             MostrarMenuPrincipal();
         }
 
@@ -117,6 +116,7 @@ namespace Fundacion_Resplandece_Kid
             Console.WriteLine("\n¡Autenticación exitosa! Presione cualquier tecla para continuar al menú principal.");
             Console.ReadLine();
             DisplayMainMenu();
+        }
 
         private static string ReadPassword()
         {
@@ -202,6 +202,7 @@ namespace Fundacion_Resplandece_Kid
             Console.Write("Ingrese el código del usuario a eliminar: ");
             string codigo = Console.ReadLine();
             Usuarios objUsuariosEliminar = BaseDeDatos.GetUsuariosXCodigo(codigo);
+
             if (objUsuariosEliminar == null)
             {
                 Console.WriteLine("Código de usuario no encontrado.");
@@ -276,6 +277,7 @@ namespace Fundacion_Resplandece_Kid
             Console.WriteLine();
 
             Usuarios objUsuario = new Usuarios(usuario, contrasena, rol);
+            BaseDeDatos.BaseDatosUsuarios.Add(objUsuario);
             Console.WriteLine("Usuario " + usuario + " " + contrasena + " grabado con éxito!!");
             Console.ReadLine();
         }
@@ -500,9 +502,9 @@ namespace Fundacion_Resplandece_Kid
             string edad_maxima;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("╔═══════════════════════════════════════════╗");
-            Console.WriteLine("║   * * * CREACIÓN DEL BENEFICIARIO * * *   ║");
-            Console.WriteLine("╚═══════════════════════════════════════════╝");
+            Console.WriteLine("╔═══════════════════════════════════╗");
+            Console.WriteLine("║   * * * CREACIÓN DE TUTOR * * *   ║");
+            Console.WriteLine("╚═══════════════════════════════════╝");
             Console.ResetColor();
             Console.WriteLine();
 
@@ -518,7 +520,7 @@ namespace Fundacion_Resplandece_Kid
             telefono = Console.ReadLine();
             Console.WriteLine();
 
-            Console.Write("Ingrese el correo del beneficiario: ");
+            Console.Write("Ingrese el correo del tutor: ");
             correo = Console.ReadLine();
             Console.WriteLine();
 
@@ -593,11 +595,10 @@ namespace Fundacion_Resplandece_Kid
             }
             else
             {
+                Console.WriteLine("\nDatos actuales del beneficiario:");
                 objBeneficiarioActualizar.ImprimirBeneficiarios();
-                Console.WriteLine("\nIngrese los nuevos datos del beneficiario: ");
-                Console.Write("Ingrese la cédula del beneficiario: ");
-                string cedula = Console.ReadLine();
                 Console.WriteLine();
+                Console.WriteLine("\n--- Ingrese los nuevos datos (deje en blanco para no cambiar) ---");
 
                 Console.Write("Ingrese los nuevos nombres del beneficiario: ");
                 string nombres = Console.ReadLine();
@@ -618,17 +619,23 @@ namespace Fundacion_Resplandece_Kid
                 Console.Write("Ingrese el nuevo plantel educativo del beneficiario: ");
                 string plantel_educativo = Console.ReadLine();
                 Console.WriteLine();
+
                 Console.Write("Ingrese el nuevo año educativo del beneficiario: ");
                 string anio_educativo = Console.ReadLine();
                 Console.WriteLine();
+
                 Console.Write("Ingrese el nuevo teléfono del beneficiario: ");
                 string telefono = Console.ReadLine();
                 Console.WriteLine();
+
                 Console.Write("Ingrese el nuevo email del beneficiario: ");
                 string email = Console.ReadLine();
                 Console.WriteLine();
+
+
                 BaseDeDatos.BaseDatosBeneficiarios.RemoveAt(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) - 1);
                 BaseDeDatos.BaseDatosBeneficiarios.Insert(Convert.ToInt32(objBeneficiarioActualizar.getCodigo()) - 1, objBeneficiarioActualizar);
+                BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
                 Console.WriteLine("Beneficiario actualizado con éxito.");
                 Console.ReadLine();
             }
@@ -676,15 +683,15 @@ namespace Fundacion_Resplandece_Kid
         //CREAR BENEFICIARIO
         private static void CreateBeneficiario()
         {
-            string cedula;
-            string nombres;
-            string apellidos;
+            string cedulaBeneficiario;
+            string nombresBeneficiario;
+            string apellidosBeneficiario;
             string direccion;
             DateTime fecha_nacimiento;
             string plantel_educativo;
             string anio_educativo;
             string telefono;
-            string email;
+            string emailBeneficiario;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("╔═══════════════════════════════════════════╗");
@@ -693,16 +700,17 @@ namespace Fundacion_Resplandece_Kid
             Console.ResetColor();
             Console.WriteLine();
 
+            Console.WriteLine("\n--- Ingrese los Datos del Beneficiario ---");
             Console.Write("Ingrese la cédula del beneficiario: ");
-            cedula = Console.ReadLine();
+            cedulaBeneficiario = Console.ReadLine();
             Console.WriteLine();
 
             Console.Write("Ingrese los nombres del beneficiario: ");
-            nombres = Console.ReadLine();
+            nombresBeneficiario = Console.ReadLine();
             Console.WriteLine();
 
             Console.Write("Ingrese los apellidos del beneficiario: ");
-            apellidos = Console.ReadLine();
+            apellidosBeneficiario = Console.ReadLine();
             Console.WriteLine();
 
             Console.Write("Ingrese la dirección del beneficiario: ");
@@ -726,10 +734,56 @@ namespace Fundacion_Resplandece_Kid
             Console.WriteLine();
 
             Console.Write("Ingrese el email del beneficiario: ");
-            email = Console.ReadLine();
+            emailBeneficiario = Console.ReadLine();
             Console.WriteLine();
+
+            Beneficiarios nuevoBeneficiario = new Beneficiarios(cedulaBeneficiario, nombresBeneficiario, apellidosBeneficiario, direccion, fecha_nacimiento, plantel_educativo, anio_educativo, telefono, emailBeneficiario);
+            BaseDeDatos.BaseDatosBeneficiarios.Add(nuevoBeneficiario);
+            BaseDeDatos.guardarDatosEnArchivoBeneficiarios();
+            Console.WriteLine("\n¡Beneficiario registrado con éxito!");
+            nuevoBeneficiario.ImprimirBeneficiarios();
+
+            // --- Datos del Responsable ---
+            Console.WriteLine("\n--- Ingrese los Datos del Padre/Madre/Responsable ---");
+            Console.Write("Cédula del Responsable: ");
+            string cedulaResponsable = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Nombres del Responsable: ");
+            string nombresResponsable = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Apellidos del Responsable: ");
+            string apellidosResponsable = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Teléfono del Responsable: ");
+            string telefonoResponsable = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Email del Responsable: ");
+            string emailResponsable = Console.ReadLine();
+            Console.WriteLine();
+
+            Console.Write("Parentesco con el Beneficiario (ej. Padre, Madre, Tío, Abuelo): ");
+            string parentesco = Console.ReadLine();
+            Console.WriteLine();
+
+
+            Responsable nuevoResponsable = new Responsable(cedulaResponsable, nombresResponsable, apellidosResponsable, telefonoResponsable, emailResponsable, parentesco);
+            BaseDeDatos.BaseDatosResponsable.Add(nuevoResponsable);
+            BaseDeDatos.guardarDatosEnArchivoResponsable();
+            Console.WriteLine("\n¡Responsable registrado con éxito!");
+            nuevoResponsable.ImprimirResponsable();
+            
+
         }
 
 
     }
 }
+
+
+
+
+

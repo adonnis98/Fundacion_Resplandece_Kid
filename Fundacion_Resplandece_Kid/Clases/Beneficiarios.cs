@@ -7,6 +7,7 @@ using Fundacion_Resplandece_Kid.Clases.Base;
 
 namespace Fundacion_Resplandece_Kid.Clases
 {
+    [Serializable]
     public class Beneficiarios
     {
         private int id;
@@ -22,24 +23,23 @@ namespace Fundacion_Resplandece_Kid.Clases
         private string email;
         private int edad;
         private string nombres_completos;
-        public Tutores TutorAsignado { get; private set; } 
+        public Tutores TutorAsignado { get; private set; }
 
 
 
 
-        public Beneficiarios(string cedula, string nombres, string apellidos, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string email)
+        public Beneficiarios(string cedulaBeneficiario, string nombresBeneficiario, string apellidosBeneficiario, string direccion, DateTime fecha_nacimiento, string plantel_educativo, string anio_educativo, string telefono, string emailBeneficiario)
         {
             this.id = BaseDeDatos.BaseDatosBeneficiarios.Count() + 1;
-            this.codigo = "BE" + this.id.ToString("D5"); 
-            this.cedula = cedula;
-            this.nombres = nombres;
-            this.apellidos = apellidos;
+            this.codigo = "BE" + this.id.ToString();
+            this.cedula = cedulaBeneficiario;
+            this.nombres = nombresBeneficiario;
+            this.apellidos = apellidosBeneficiario;
             this.direccion = direccion;
-            this.fecha_nacimiento = fecha_nacimiento;
             this.plantel_educativo = plantel_educativo;
             this.anio_educativo = anio_educativo;
             this.telefono = telefono;
-            this.email = email;
+            this.email = emailBeneficiario;
             this.fecha_nacimiento = fecha_nacimiento;
             this.edad = DateTime.Now.Year - this.fecha_nacimiento.Year;
             if (DateTime.Now.Month < this.fecha_nacimiento.Month || (DateTime.Now.Month == this.fecha_nacimiento.Month && DateTime.Now.Day < this.fecha_nacimiento.Day))
@@ -140,24 +140,19 @@ namespace Fundacion_Resplandece_Kid.Clases
             else
             {
                 Console.WriteLine($"║ Tutor Asignado: N/A (No se encontró un tutor para esta edad)".PadRight(80) + "║");
-            }
-            Console.WriteLine(" ╚══════════════════════════════════════════════════════════════════════════════════╝");
 
-            // Console.WriteLine(" ╠══════════════════════════════════════════════════════════════════════════════════╣");
-            //  Console.WriteLine(" ║                 Datos del Representante                       ║".PadRight(80) + "║");
-            //if (this.representante != null)
-            //{
-            //Console.WriteLine($"║ Cédula Rep.: {this.representante.GetCedula()}".PadRight(80) + "║");
-            //Console.WriteLine($"║ Teléfono Rep.: {this.representante.GetTelefono()}".PadRight(80) + "║");
-            //Console.WriteLine($"║ Dirección Rep.: {this.representante.GetDireccion()}".PadRight(80) + "║");
-            //  Console.WriteLine($"║ Parentesco : {this.representante.GetRelacionConBeneficiario()}".PadRight(80) + "║");
-            //}
-            // else
-            //{
-            //  Console.WriteLine($"║ No hay representante asignado para este beneficiario.     ║".PadRight(80) + "║");
-            //}
-            //Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════╝");
+            }
+        }
+
+
+        public void MostrarBeneficiarios()
+        {
+            foreach (var beneficiario in BaseDeDatos.BaseDatosBeneficiarios)
+            {
+                Console.WriteLine($"Beneficiario: {beneficiario.GetNombresCompletos()}, Cédula: {beneficiario.GetCedula()}, Edad: {beneficiario.GetEdad()} años, Tutor Asignado: {beneficiario.TutorAsignado?.GetNombresCompletos() ?? "N/A"}");
+            }
         }
     }
 }
+
 
