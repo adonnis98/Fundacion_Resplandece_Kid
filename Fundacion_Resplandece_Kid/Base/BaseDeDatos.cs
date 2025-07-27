@@ -16,18 +16,25 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
 
         public static void guardarDatosEnArchivoBeneficiarios()
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream nuevoArchivo = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Create);
-            bf.Serialize(nuevoArchivo, BaseDatosBeneficiarios);
+            using (FileStream nuevoArchivo = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Create))// 
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                //FileStream nuevoArchivo = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Create);
+                bf.Serialize(nuevoArchivo, BaseDatosBeneficiarios);
+            }
         }
+
         public static void cargarDatosDesdeArchivoBeneficiarios()
         {
             if (File.Exists(nombreBaseDatosBeneficiarios))
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream archivoExistente = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Open);
-                BaseDatosBeneficiarios = (List<Beneficiarios>)bf.Deserialize(archivoExistente);
-                archivoExistente.Close();
+                using (FileStream abrirArchivo = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Open)) //
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    // FileStream archivoExistente = new FileStream(nombreBaseDatosBeneficiarios, FileMode.Open);
+                    BaseDatosBeneficiarios = (List<Beneficiarios>)bf.Deserialize(abrirArchivo); //archivoExistente
+                }
+                // archivoExistente.Close();
             }
         }
         public static Beneficiarios GetBeneficiariosXCodigo(string codigo)
@@ -41,14 +48,14 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
             }
             return null;
         }
-         public static void MostrarBeneficiarios()
+        public static void MostrarBeneficiarios()
         {
             foreach (var beneficiarios in BaseDatosBeneficiarios)
             {
                 beneficiarios.ImprimirBeneficiarios();
             }
         }
-       
+
 
 
         //=================================================================================================================================
@@ -59,17 +66,22 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
 
         public static void guardarDatosEnArchivoUsuarios()
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuarios, FileMode.Create);
-            bf.Serialize(nuevoArchivo, BaseDatosUsuarios);
+            using (FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuarios, FileMode.Create))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                // FileStream nuevoArchivo = new FileStream(nombreBaseDatosUsuarios, FileMode.Create);
+                bf.Serialize(nuevoArchivo, BaseDatosUsuarios);
+            }
         }
         public static void cargarDatosDesdeArchivoUsuarios()
         {
             if (File.Exists(nombreBaseDatosUsuarios))
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream archivoExistente = new FileStream(nombreBaseDatosUsuarios, FileMode.Open);
-                BaseDatosUsuarios = (List<Usuarios>)bf.Deserialize(archivoExistente);
+               
+                    BinaryFormatter bf = new BinaryFormatter();
+                    FileStream archivoExistente = new FileStream(nombreBaseDatosUsuarios, FileMode.Open);
+                    BaseDatosUsuarios = (List<Usuarios>)bf.Deserialize(archivoExistente); //archivoExistente
+                
                 archivoExistente.Close();
             }
         }
