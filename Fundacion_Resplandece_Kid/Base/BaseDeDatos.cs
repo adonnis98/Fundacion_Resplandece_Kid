@@ -75,6 +75,8 @@ namespace Fundacion_Resplandece_Kid.Clases.Base
         }
         public static void cargarDatosDesdeArchivoUsuarios()
         {
+
+
             if (File.Exists(nombreBaseDatosUsuarios))
             {
                
